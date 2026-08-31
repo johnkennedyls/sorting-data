@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sorting Data - Quicksort</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
+        .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 800px; margin: auto; }
+        h1, h2 { color: #333; }
+        form { margin-bottom: 20px; }
+        label { font-weight: bold; }
+        input[type="number"] { padding: 8px; width: 100px; margin-right: 10px; }
+        button { padding: 8px 15px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .data-section { margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #007bff; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Generador y Ordenador de Datos</h1>
+    <p>Ingrese la cantidad de datos aleatorios que desea generar y ordenar mediante el algoritmo Quicksort.</p>
+
+    <form action="#" th:action="@{/sort}" th:object="${sortingRequest}" method="post">
+        <label for="dataSize">Número de datos (N):</label>
+        <input type="number" id="dataSize" th:field="*{dataSize}" min="1" required>
+        <button type="submit">Generar y Ordenar</button>
+    </form>
+
+    <div th:if="${result != null}" class="data-section">
+        <h2>Resultados para N = <span th:text="${result.dataSize}"></span></h2>
+
+        <h3>Datos antes de la ordenación (Aleatorios)</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Índice</th>
+                <th>Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="num, iterStat : ${result.originalData}">
+                <td th:text="${iterStat.index}"></td>
+                <td th:text="${num}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3>Datos después de la ordenación (Quicksort)</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Índice</th>
+                <th>Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="num, iterStat : ${result.sortedData}">
+                <td th:text="${iterStat.index}"></td>
+                <td th:text="${num}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
