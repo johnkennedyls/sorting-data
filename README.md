@@ -1,189 +1,65 @@
-# Sorting Data
+# Sorting Data: Quicksort vs Merge Sort
 
-A Spring Boot application that demonstrates the implementation of the **Quick Sort algorithm** for ordering randomly generated numbers.
+Aplicación web construida con Java y Spring Boot bajo el patrón arquitectónico Modelo-Vista-Controlador (MVC), capaz de generar una cantidad indeterminada de datos aleatorios, ordenarlos mediante el algoritmo Quicksort y ejecutar un benchmark comparativo contra Merge Sort aplicando el método del límite dentro de la notación Big O.
 
-The project was developed as a practical exercise to understand sorting algorithms, backend architecture, and the separation of responsibilities in a Spring Boot application.
+**Autores:** John Kennedy, Nicolas Sandoval
+**Paquete base:** `com.fup.sorting_data`
 
-## Technologies
+## Características
 
-* **Java 17**
-* **Spring Boot**
-* **Spring MVC**
-* **Thymeleaf**
-* **Lombok**
-* **Maven**
+### Módulo Quicksort
+- Generación de N datos aleatorios solicitados por el usuario.
+- Ordenamiento mediante Quicksort con selección de pivote central.
+- Visualización de los datos antes y después de la ordenación.
+- Protección del renderizado: las tablas detalladas se muestran únicamente para N menor o igual a 200; el tamaño máximo aceptado es 1.000.000.
 
-The project uses Spring Boot and Maven, with Java 17 configured as the target version.
+### Módulo Benchmark Comparativo
+- Evaluación de ambos algoritmos sobre los mismos conjuntos de datos aleatorios.
+- Tamaños evaluados: N = 1.000, 10.000, 100.000, 1.000.000 y 10.000.000.
+- Medición de tiempos con `System.nanoTime()` y fase de warmup previa para mitigar el efecto del compilador JIT.
+- Cálculo de las divisiones F(n)/G(n) y G(n)/F(n), donde F(n) es el tiempo de Quicksort y G(n) el tiempo de Merge Sort.
+- Estimación experimental del límite lim (n → ∞) F(n)/G(n) e interpretación asintótica automática.
 
-## Features
+## Tecnologías
 
-* Generate and process random numbers.
-* Sort data using the **Quick Sort** algorithm.
-* Separate application logic into controller, model, and service layers.
-* Present results through a web interface using Thymeleaf.
+- Java 17
+- Spring Boot 3.2.x
+- Spring Web (servidor embebido Tomcat)
+- Thymeleaf (motor de plantillas del lado del servidor)
+- Maven
 
-## Project Structure
+## Requisitos
 
-```text
-sorting-data/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── fup/
-│   │   │           └── sorting_data/
-│   │   │               ├── controller/
-│   │   │               │   └── SortingController.java
-│   │   │               ├── model/
-│   │   │               │   ├── SortingRequest.java
-│   │   │               │   └── SortingResult.java
-│   │   │               ├── service/
-│   │   │               │   └── SortingService.java
-│   │   │               └── SortingDataApplication.java
-│   │   └── resources/
-│   │
-│   └── test/
-│
-├── .gitignore
-├── .gitattributes
-├── mvnw
-├── mvnw.cmd
-└── pom.xml
-```
+- JDK 17 o superior
+- Maven 3.6 o superior
+- Navegador web moderno
 
-The current repository follows this controller/model/service organization.
-
-## How Quick Sort Works
-
-Quick Sort is a divide-and-conquer sorting algorithm.
-
-Its general process is:
-
-1. Select a **pivot** element.
-2. Partition the collection around the pivot.
-3. Elements smaller than the pivot are placed on one side.
-4. Elements greater than the pivot are placed on the other side.
-5. Recursively apply the same process to both partitions.
-
-### Complexity
-
-| Case    | Time Complexity |
-| ------- | --------------: |
-| Best    |    `O(n log n)` |
-| Average |    `O(n log n)` |
-| Worst   |         `O(n²)` |
-
-The worst case can occur when the pivot selection produces highly unbalanced partitions.
-
-## Getting Started
-
-### Prerequisites
-
-Make sure you have installed:
-
-* Java 17 or higher
-* Maven, or use the included Maven Wrapper
-
-Verify Java:
-
-```bash
-java -version
-```
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/johnkennedyls/sorting-data.git
-cd sorting-data
-```
-
-### Run the Application
-
-Using Maven Wrapper on Windows:
-
-```bash
-mvnw.cmd spring-boot:run
-```
-
-On Linux/macOS:
-
-```bash
-./mvnw spring-boot:run
-```
-
-Alternatively, if Maven is installed:
-
-```bash
-mvn spring-boot:run
-```
-
-### Build the Project
-
-```bash
-./mvnw clean package
-```
-
-On Windows:
-
-```bash
-mvnw.cmd clean package
-```
-
-## Architecture
-
-The application follows a simple layered architecture:
+## Estructura del Proyecto
 
 ```text
-Client
-   │
-   ▼
-Controller
-   │
-   ▼
-Service
-   │
-   ▼
-Sorting Algorithm
-   │
-   ▼
-Model / Result
-```
-
-### Controller
-
-`SortingController` handles incoming web requests and coordinates the interaction between the web layer and the sorting service.
-
-### Service
-
-`SortingService` contains the core sorting logic and is responsible for processing the data.
-
-### Model
-
-The application uses:
-
-* `SortingRequest` for incoming sorting data.
-* `SortingResult` for representing the sorting result.
-
-This separation keeps the sorting logic independent from the presentation layer.
-
-## Purpose
-
-This project is intended for educational purposes and focuses on:
-
-* Understanding sorting algorithms.
-* Implementing Quick Sort.
-* Practicing Java and Spring Boot.
-* Applying layered application architecture.
-* Understanding the interaction between controllers, services, models, and web views.
-
-## Author
-
-**John Kennedy**
-
-Systems Engineering Student and Software Developer.
-
-GitHub: [@johnkennedyls](https://github.com/johnkennedyls)
-
-## License
-
-This project is available for educational and personal use.
+sorting_data/
+├── pom.xml
+├── README.md
+└── src/
+    └── main/
+        ├── java/
+        │   └── com/
+        │       └── fup/
+        │           └── sorting_data/
+        │               ├── SortingDataApplication.java
+        │               ├── controller/
+        │               │   ├── BenchmarkController.java
+        │               │   └── SortingController.java
+        │               ├── model/
+        │               │   ├── BenchmarkResult.java
+        │               │   ├── BenchmarkRow.java
+        │               │   ├── SortingRequest.java
+        │               │   └── SortingResult.java
+        │               └── service/
+        │                   ├── BenchmarkService.java
+        │                   └── SortingService.java
+        └── resources/
+            ├── application.properties
+            └── templates/
+                ├── benchmark.html
+                └── index.html
